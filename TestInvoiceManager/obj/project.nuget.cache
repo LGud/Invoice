@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fD35YUFrAaj9zKrWGPb+GBibMDEcgFJ1O2EOuvTpoHYyhlSS2X1OxOmifVfKvKRSI4293c1hIE1sXWGQJfLOmQ==",
+  "dgSpecHash": "A8tegmYzq6nQsJUT5K/ee1LQp9vB6FJZ8mE/TEaKsWib+vIc/Tjww6LJtO8J/59+e2AMq0WnHZNE9qbiedW4aA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\plenc\\source\\repos\\InvoiceManager\\TestInvoiceManager\\TestInvoiceManager.csproj",
+  "projectFilePath": "C:\\Users\\plenc\\source\\repos\\InvoiceManager\\TestInvoiceManager\\InvoiceManagerTests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\plenc\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\plenc\\.nuget\\packages\\coverlet.collector\\1.3.0\\coverlet.collector.1.3.0.nupkg.sha512",

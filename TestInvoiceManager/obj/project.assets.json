@@ -6169,9 +6169,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\plenc\\source\\repos\\InvoiceManager\\TestInvoiceManager\\TestInvoiceManager.csproj",
-      "projectName": "TestInvoiceManager",
-      "projectPath": "C:\\Users\\plenc\\source\\repos\\InvoiceManager\\TestInvoiceManager\\TestInvoiceManager.csproj",
+      "projectUniqueName": "C:\\Users\\plenc\\source\\repos\\InvoiceManager\\TestInvoiceManager\\InvoiceManagerTests.csproj",
+      "projectName": "InvoiceManagerTests",
+      "projectPath": "C:\\Users\\plenc\\source\\repos\\InvoiceManager\\TestInvoiceManager\\InvoiceManagerTests.csproj",
       "packagesPath": "C:\\Users\\plenc\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\plenc\\source\\repos\\InvoiceManager\\TestInvoiceManager\\obj\\",
       "projectStyle": "PackageReference",
