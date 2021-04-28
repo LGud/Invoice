@@ -4,6 +4,6 @@ namespace InvoiceManager.Services
 {
     public interface IInvoiceService
     {
-        double CalculateTotalAmount(Individual provider, Individual client, double amount);
+        double CalculateTotalAmount(int providerId, int clientId, double amount);
     }
 }

@@ -6,13 +6,18 @@ namespace InvoiceManager.Services
     public class InvoiceService : IInvoiceService
     {
         private readonly ICountryRepo _countryRepo;
+        private readonly IIndividualRepo _individualRepo;
 
-        public InvoiceService(ICountryRepo countryRepo)
+        public InvoiceService(ICountryRepo countryRepo,IIndividualRepo individualRepo)
         {
             _countryRepo = countryRepo;
+            _individualRepo = individualRepo;
         }
-        public double CalculateTotalAmount(Individual provider, Individual client, double amount)
+        public double CalculateTotalAmount(int providerId, int clientId, double amount)
         {
+            var provider = _individualRepo.GetIndividualById(providerId);
+            var client =  _individualRepo.GetIndividualById(clientId);
+
             if (provider.IsPerson)
                 throw new System.ArgumentException("Provider can not be a person");
             if (!provider.VATPayer)
