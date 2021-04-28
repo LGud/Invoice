@@ -7,9 +7,9 @@ namespace InvoiceManager.Services
     {
         private readonly ICountryRepo _countryRepo;
 
-        public InvoiceService()
+        public InvoiceService(ICountryRepo countryRepo)
         {
-            _countryRepo = new MockCountryRepo();
+            _countryRepo = countryRepo;
         }
         public double CalculateTotalAmount(Individual provider, Individual client, double amount)
         {

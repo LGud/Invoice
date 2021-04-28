@@ -10,13 +10,13 @@ namespace InvoiceManagerTests
     {
         private readonly IInvoiceService _sut;
 
-        private readonly ICountryRepo _countryRepo;
-
+        private readonly ICountryRepo _countryRepo = Substitute.For<ICountryRepo>();
+        
         public InvoiceServiceTests()
         {
-            _sut = new InvoiceService();
-            _countryRepo = new MockCountryRepo();
+            _sut = new InvoiceService(_countryRepo);
         }
+
         //Kai paslaugų tiekėjas nėra juridinis asmuo 
         [Fact]
         public void CalculateTotalAmount_WhenProviderIsPerson_ShouldReturnException()
@@ -31,23 +31,25 @@ namespace InvoiceManagerTests
 
             //assert
             Assert.Equal("Provider can not be a person", exception.Message);
-        }
+        }   
 
-        //Kai neranda šalies bazėje
-        [Fact]
-        public void CalculateTotalAmount_WhenCantFindCountry_ShouldReturnException()
+        //kai neranda salies
+        [Fact]      
+        public void CalculateTotalAmount_WhenCannotFindRegion_ShouldReturnException()
         {
             //arrange
-            var provider = new Individual() { Id = 0, FullName = "Tadas Padas", Country = "Tunac", Adress = "Kaunas Kazkur.g 12", VATPayer = true, IsPerson = false };
+            var provider = new Individual() { Id = 0, FullName = "Tadas Padas", Country = "Tunac", Adress = "Kaunas Kazkur.g 12", VATPayer = true, IsPerson=false };
             var client = new Individual() { Id = 1, FullName = "UAB GerasAsmuo", Country = "Dunac", Adress = "Kaunas Kazkur.g 15", VATPayer = true, IsPerson = false };
             var amount = 123.321;
 
+            _countryRepo.When(x=>x.GetRegionFromCountryByName(client.Country)).Do(x=>{throw new System.ArgumentException("Invalid Country");});
+
             //act 
-            var exception = Assert.Throws<System.ArgumentException>(() => _sut.CalculateTotalAmount(provider, client, amount));
+            var exception = Assert.Throws<System.ArgumentException>(()=> _sut.CalculateTotalAmount(provider, client, amount));
 
             //assert
             Assert.Equal("Invalid Country", exception.Message);
-        }
+        }        
 
         // Kai paslaugų tiekėjas nėra PVM mokėtojas - PVM mokestis nuo užsakymo sumos nėra skaičiuojamas.
         [Fact]
@@ -74,6 +76,8 @@ namespace InvoiceManagerTests
             var client = new Individual() { Id = 1, FullName = "UAB GerasAsmuo",Country = "China", Adress = "King Kong.g 15", VATPayer = true, IsPerson = false };
             var amount = 123.321;
 
+            _countryRepo.GetRegionFromCountryByName(client.Country).Returns("Azija");
+
             //act          
             var result = _sut.CalculateTotalAmount(provider, client, amount);
 
@@ -90,6 +94,9 @@ namespace InvoiceManagerTests
             var provider = new Individual() { Id = 0, FullName = "UAB GerasTestas",Country = "Poland", Adress = "Kaunas Kazkur.g 12", VATPayer = true, IsPerson = false };
             var client = new Individual() { Id = 1, FullName = "UAB GerasAsmuo", Country = "Lithuania", Adress = "King Kong.g 15", VATPayer = false, IsPerson = false };
             var amount = 123.321;
+
+            _countryRepo.GetRegionFromCountryByName(client.Country).Returns("EU");
+            _countryRepo.GetVatCodeFromCountryByName(client.Country).Returns(21);
 
             //act          
             var result = _sut.CalculateTotalAmount(provider, client, amount);
@@ -108,6 +115,9 @@ namespace InvoiceManagerTests
             var client = new Individual() { Id = 1, FullName = "UAB GerasAsmuo",Country = "Lithuania", Adress = "King Kong.g 15", VATPayer = true, IsPerson = false };
             var amount = 123.321;
 
+            _countryRepo.GetRegionFromCountryByName(client.Country).Returns("EU");
+            _countryRepo.GetVatCodeFromCountryByName(client.Country).Returns(21);
+
             //act          
             var result = _sut.CalculateTotalAmount(provider, client, amount);
 
@@ -123,6 +133,9 @@ namespace InvoiceManagerTests
             var provider = new Individual() { Id = 0, FullName = "UAB GerasTestas",Country = "Lithuania", Adress = "Kaunas Kazkur.g 12", VATPayer = true, IsPerson = false };
             var client = new Individual() { Id = 1, FullName = "UAB GerasAsmuo",Country = "Lithuania", Adress = "King Kong.g 15", VATPayer = true, IsPerson = false };
             var amount = 123.321;
+
+            _countryRepo.GetRegionFromCountryByName(client.Country).Returns("EU");
+            _countryRepo.GetVatCodeFromCountryByName(client.Country).Returns(21);
 
             //act          
             var result = _sut.CalculateTotalAmount(provider, client, amount);
